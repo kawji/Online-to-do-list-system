@@ -1,10 +1,10 @@
 import { UserRound } from "lucide-react"
-
+import { Textarea } from "@/components/ui/textarea"
 
 export default function HomePage() {
 
     return(
-        <div className="flex flex-col items-center max-w-130 w-full">
+        <div className="flex flex-col items-center max-w-130 w-full ">
             <nav className='flex items-center justify-between w-full max-w-130 max-full py-3 border-b border-b-zinc-50/15'>
                 <div className='flex items-center justify-center rounded-full p-2 cursor-pointer hover:bg-zinc-50 hover:text-zinc-950 '>
                     <UserRound size={15} />
@@ -23,14 +23,16 @@ export default function HomePage() {
 
                 <button type="submit" className="bg-zinc-900/75 hover:scale-105 border border-zinc-50/8 whitespace-nowrap hover:bg-zinc-100
                  hover:text-zinc-950 px-3 w-auto cursor-pointer transition-all duration-300">Next</button>
-
-                {/* Pop-up from next */}
-                <div className="absolute top-1/2 left-1/2 ">
-
+            </form>
+            {/* Pop-up from next */}
+            <div className="fixed w-full h-full  px-4 py-2.5 border border-zinc-50/12 bg-zinc-950/70 flex justify-center items-center ">
+                <div className="flex flex-col gap-5 bg-white/8">
+                    <h6 className="font-semibold text-2xl ">Customize your list and review it</h6>
+                    <Textarea />
                 </div>
 
+            </div>
 
-            </form>
 
 
             <div className="mt-2.5 flex items-center justify-between w-full ">
