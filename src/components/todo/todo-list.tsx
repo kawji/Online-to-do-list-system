@@ -20,7 +20,7 @@ export function TodoList({
 }: TodoListProps) {
   if (todos.length === 0) {
     return (
-      <p className="mt-8 w-full text-center text-zinc-50/45 border border-dashed border-zinc-50/15 px-4 py-8">
+      <p className="mt-8 w-full text-center text-zinc-950/45 border border-dashed border-zinc-950/15 px-4 py-8 dark:text-zinc-50/45 dark:border-zinc-50/15">
         No to-dos yet. Add one above.
       </p>
     )
@@ -32,11 +32,13 @@ export function TodoList({
   return (
     <div className="mt-8 w-full flex flex-col gap-6">
       <section className="w-full">
-        <h2 className="mb-2 text-sm tracking-wide text-zinc-50/55 uppercase">
+        <h2 className="mb-2 text-sm tracking-wide text-zinc-950/55 uppercase dark:text-zinc-50/55">
           Active ({active.length})
         </h2>
         {active.length === 0 ? (
-          <p className="text-zinc-50/40 text-sm">All caught up.</p>
+          <p className="text-zinc-950/40 text-sm dark:text-zinc-50/40">
+            All caught up.
+          </p>
         ) : (
           <ul className="flex flex-col gap-2">
             {active.map((todo) => (
@@ -55,7 +57,7 @@ export function TodoList({
 
       {done.length > 0 && (
         <section className="w-full">
-          <h2 className="mb-2 text-sm tracking-wide text-zinc-50/55 uppercase">
+          <h2 className="mb-2 text-sm tracking-wide text-zinc-950/55 uppercase dark:text-zinc-50/55">
             Completed ({done.length})
           </h2>
           <ul className="flex flex-col gap-2">

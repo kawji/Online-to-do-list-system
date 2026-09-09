@@ -42,7 +42,7 @@ export function LoginForm() {
 
   return (
     <form className="flex w-full flex-col gap-3" onSubmit={handleSubmit}>
-      <label className="flex flex-col gap-1.5 text-sm text-zinc-50/70">
+      <label className="flex flex-col gap-1.5 text-sm text-zinc-950/70 dark:text-zinc-50/70">
         Email
         <input
           type="email"
@@ -51,12 +51,12 @@ export function LoginForm() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full bg-transparent border border-white/12 px-5 py-2.5 text-zinc-50 hover:border-zinc-100/40 focus:border-zinc-100/40 outline-none transition-colors duration-300"
+          className="w-full bg-transparent border border-zinc-950/12 px-5 py-2.5 text-zinc-950 placeholder:text-zinc-950/35 hover:border-zinc-950/40 focus:border-zinc-950/40 dark:border-white/12 dark:text-zinc-50 dark:placeholder:text-zinc-50/35 dark:hover:border-zinc-100/40 dark:focus:border-zinc-100/40 outline-none transition-colors duration-300"
           placeholder="you@example.com"
         />
       </label>
 
-      <label className="flex flex-col gap-1.5 text-sm text-zinc-50/70">
+      <label className="flex flex-col gap-1.5 text-sm text-zinc-950/70 dark:text-zinc-50/70">
         Password
         <input
           type="password"
@@ -66,13 +66,13 @@ export function LoginForm() {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full bg-transparent border border-white/12 px-5 py-2.5 text-zinc-50 hover:border-zinc-100/40 focus:border-zinc-100/40 outline-none transition-colors duration-300"
+          className="w-full bg-transparent border border-zinc-950/12 px-5 py-2.5 text-zinc-950 placeholder:text-zinc-950/35 hover:border-zinc-950/40 focus:border-zinc-950/40 dark:border-white/12 dark:text-zinc-50 dark:placeholder:text-zinc-50/35 dark:hover:border-zinc-100/40 dark:focus:border-zinc-100/40 outline-none transition-colors duration-300"
           placeholder="••••••••"
         />
       </label>
 
       {error && (
-        <p className="border border-red-400/30 bg-red-950/40 px-3 py-2 text-sm text-red-300">
+        <p className="border border-red-400/30 bg-red-50 px-3 py-2 text-sm text-red-600 dark:bg-red-950/40 dark:text-red-300">
           {error}
         </p>
       )}
@@ -80,16 +80,16 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="mt-2 bg-zinc-900/75 border border-zinc-50/8 px-3 py-2.5 hover:bg-zinc-100 hover:text-zinc-950 cursor-pointer transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none"
+        className="mt-2 bg-zinc-200/80 border border-zinc-950/10 px-3 py-2.5 hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-900/75 dark:border-zinc-50/8 dark:hover:bg-zinc-100 dark:hover:text-zinc-950 cursor-pointer transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none"
       >
         {loading ? "Signing in..." : "Sign in"}
       </button>
 
-      <p className="mt-2 text-center text-sm text-zinc-50/55">
+      <p className="mt-2 text-center text-sm text-zinc-950/55 dark:text-zinc-50/55">
         No account?{" "}
         <Link
           href="/register"
-          className="text-zinc-50 underline-offset-4 hover:underline"
+          className="text-zinc-950 underline-offset-4 hover:underline dark:text-zinc-50"
         >
           Register
         </Link>
