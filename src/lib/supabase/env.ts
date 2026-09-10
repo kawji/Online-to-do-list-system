@@ -6,7 +6,7 @@ export function getSupabaseEnv() {
 
   if (!url || !key) {
     throw new Error(
-      "Missing SUPABASE_URL and NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY (or ANON_KEY)"
+      "Missing SUPABASE_URL and SUPABASE_KEY (or ANON_KEY)"
     )
   }
 

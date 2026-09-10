@@ -8,7 +8,7 @@ export async function proxy(request: NextRequest) {
 
   const url = process.env.SUPABASE_URL
   const key =
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+    process.env.SUPABASE_KEY ??
     process.env.SUPABASE_KEY
 
   if (!url || !key) {
