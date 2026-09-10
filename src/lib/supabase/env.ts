@@ -1,12 +1,17 @@
 export function getSupabaseEnv() {
-  const url = process.env.SUPABASE_URL
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const key =
-    process.env.SUPABASE_KEY ??
-    process.env.SUPABASE_KEY
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-  if (!url || !key) {
+  if (!url) {
     throw new Error(
-      "Missing SUPABASE_URL and SUPABASE_KEY (or ANON_KEY)"
+      "Missing SUPABASE_URL (or ANON_KEY)"
+    )
+  }
+  if (!key) {
+    throw new Error(
+      "Missing SUPABASE_KEY (or ANON_KEY)"
     )
   }
 
