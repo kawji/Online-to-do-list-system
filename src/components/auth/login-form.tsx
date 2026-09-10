@@ -51,7 +51,7 @@ export function LoginForm() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full bg-transparent border border-zinc-950/12 px-5 py-2.5 text-zinc-950 placeholder:text-zinc-950/35 hover:border-zinc-950/40 focus:border-zinc-950/40 dark:border-white/12 dark:text-zinc-50 dark:placeholder:text-zinc-50/35 dark:hover:border-zinc-100/40 dark:focus:border-zinc-100/40 outline-none transition-colors duration-300"
+          className="w-full bg-transparent border border-zinc-950/12 px-4 sm:px-5 py-3 sm:py-2.5 text-base sm:text-sm text-zinc-950 placeholder:text-zinc-950/35 hover:border-zinc-950/40 focus:border-zinc-950/40 dark:border-white/12 dark:text-zinc-50 dark:placeholder:text-zinc-50/35 dark:hover:border-zinc-100/40 dark:focus:border-zinc-100/40 outline-none transition-colors duration-300"
           placeholder="you@example.com"
         />
       </label>
@@ -66,7 +66,7 @@ export function LoginForm() {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full bg-transparent border border-zinc-950/12 px-5 py-2.5 text-zinc-950 placeholder:text-zinc-950/35 hover:border-zinc-950/40 focus:border-zinc-950/40 dark:border-white/12 dark:text-zinc-50 dark:placeholder:text-zinc-50/35 dark:hover:border-zinc-100/40 dark:focus:border-zinc-100/40 outline-none transition-colors duration-300"
+          className="w-full bg-transparent border border-zinc-950/12 px-4 sm:px-5 py-3 sm:py-2.5 text-base sm:text-sm text-zinc-950 placeholder:text-zinc-950/35 hover:border-zinc-950/40 focus:border-zinc-950/40 dark:border-white/12 dark:text-zinc-50 dark:placeholder:text-zinc-50/35 dark:hover:border-zinc-100/40 dark:focus:border-zinc-100/40 outline-none transition-colors duration-300"
           placeholder="••••••••"
         />
       </label>

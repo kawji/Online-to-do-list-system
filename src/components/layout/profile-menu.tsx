@@ -116,12 +116,12 @@ export function ProfileMenu() {
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-haspopup="menu"
-        className="flex items-center gap-2.5 min-w-0 max-w-full border border-transparent px-1 py-0.5 hover:border-zinc-950/12 dark:hover:border-zinc-50/12 cursor-pointer transition-colors duration-300"
+        className="flex items-center gap-2 sm:gap-2.5 min-w-0 max-w-[min(100%,14rem)] sm:max-w-xs border border-transparent px-1 py-0.5 hover:border-zinc-950/12 dark:hover:border-zinc-50/12 cursor-pointer transition-colors duration-300"
       >
         <AvatarFace name={displayName} avatarUrl={user?.avatarUrl} />
         <div className="flex flex-col min-w-0 leading-tight text-left">
           <span className="text-sm truncate">{displayName}</span>
-          <span className="text-[11px] tracking-wide text-zinc-950/40 dark:text-zinc-50/40">
+          <span className="hidden sm:inline text-[11px] tracking-wide text-zinc-950/40 dark:text-zinc-50/40">
             {user ? "Signed in" : "Local session"}
           </span>
         </div>

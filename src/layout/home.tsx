@@ -36,18 +36,18 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex flex-col items-center max-w-130 w-full pb-16">
-      <nav className="flex items-center justify-between gap-4 w-full py-3.5 border-b border-zinc-950/12 dark:border-zinc-50/12">
+    <div className="flex flex-col items-center max-w-130 w-full pb-12 sm:pb-16">
+      <nav className="flex items-center justify-between gap-3 sm:gap-4 w-full py-3 sm:py-3.5 border-b border-zinc-950/12 dark:border-zinc-50/12">
         <ProfileMenu />
         <ThemeToggle />
       </nav>
 
-      <div className="mt-10 px-3.5 py-2 font-extrabold text-6xl border border-zinc-950/12 hover:bg-zinc-950 hover:text-zinc-50 dark:border-zinc-50/12 dark:hover:bg-zinc-50 dark:hover:text-zinc-950 transition-colors duration-300">
+      <div className="mt-8 sm:mt-10 px-3 sm:px-3.5 py-1.5 sm:py-2 font-extrabold text-3xl sm:text-5xl md:text-6xl text-center max-w-full border border-zinc-950/12 hover:bg-zinc-950 hover:text-zinc-50 dark:border-zinc-50/12 dark:hover:bg-zinc-50 dark:hover:text-zinc-950 transition-colors duration-300">
         My To-do List
       </div>
 
       <form
-        className="flex items-stretch w-full mt-10 gap-2"
+        className="flex flex-col sm:flex-row items-stretch w-full mt-8 sm:mt-10 gap-2"
         onSubmit={handleSubmit}
       >
         <input
@@ -57,25 +57,25 @@ export default function HomePage() {
           maxLength={MAX_TODO_CHARS}
           onChange={(e) => handleChange(e.target.value)}
           placeholder="what your to do"
-          className="w-full bg-transparent border border-zinc-950/12 px-5 py-2 hover:border-zinc-950/40 hover:bg-amber-950/4 focus:border-zinc-950/40 dark:border-white/12 dark:hover:border-zinc-100/40 dark:hover:bg-amber-50/4 dark:focus:border-zinc-100/40 dark:hover:text-white/88 outline-none transition-colors duration-300"
+          className="w-full min-w-0 bg-transparent border border-zinc-950/12 px-4 sm:px-5 py-2.5 sm:py-2 text-base sm:text-sm hover:border-zinc-950/40 hover:bg-amber-950/4 focus:border-zinc-950/40 dark:border-white/12 dark:hover:border-zinc-100/40 dark:hover:bg-amber-50/4 dark:focus:border-zinc-100/40 dark:hover:text-white/88 outline-none transition-colors duration-300"
         />
 
         <button
           type="submit"
           disabled={!text.trim()}
-          className="bg-zinc-200/80 hover:scale-105 border border-zinc-950/10 whitespace-nowrap hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-900/75 dark:border-zinc-50/8 dark:hover:bg-zinc-100 dark:hover:text-zinc-950 px-3 w-auto cursor-pointer transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none disabled:hover:scale-100"
+          className="bg-zinc-200/80 sm:hover:scale-105 border border-zinc-950/10 whitespace-nowrap hover:bg-zinc-950 hover:text-zinc-50 dark:bg-zinc-900/75 dark:border-zinc-50/8 dark:hover:bg-zinc-100 dark:hover:text-zinc-950 px-4 sm:px-3 py-2.5 sm:py-2 w-full sm:w-auto cursor-pointer transition-all duration-300 disabled:opacity-40 disabled:pointer-events-none disabled:hover:scale-100"
         >
           Next
         </button>
       </form>
 
-      <div className="mt-2.5 flex items-center justify-between w-full">
-        <div className="bg-zinc-100 text-zinc-950/85 border border-zinc-950/12 px-3 py-2 dark:bg-zinc-950 dark:text-zinc-50/85 dark:border-zinc-50/12">
+      <div className="mt-2.5 flex flex-wrap items-stretch sm:items-center justify-between gap-2 w-full text-sm sm:text-base">
+        <div className="bg-zinc-100 text-zinc-950/85 border border-zinc-950/12 px-3 py-2 dark:bg-zinc-950 dark:text-zinc-50/85 dark:border-zinc-50/12 grow sm:grow-0">
           Total Characters: {totalCharacters}
         </div>
 
         <div
-          className={`bg-zinc-100 border border-zinc-950/12 px-3 py-2 dark:bg-zinc-950 dark:border-zinc-50/12 ${
+          className={`bg-zinc-100 border border-zinc-950/12 px-3 py-2 dark:bg-zinc-950 dark:border-zinc-50/12 grow sm:grow-0 text-right sm:text-left ${
             remaining === 0
               ? "text-red-500 dark:text-red-400"
               : "text-zinc-950/85 dark:text-zinc-50/85"
