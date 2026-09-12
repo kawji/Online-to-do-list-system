@@ -1,104 +1,114 @@
 import type { CreateTodoInput, Todo, UpdateTodoInput } from "@/types/todo"
+import { createClient } from "./supabase/client"
 
-const STORAGE_KEY = "my-todo:todos"
-const listeners = new Set<() => void>()
-const cacheByUser = new Map<string, Todo[]>()
+
+let currentUserId: null|string = null
+let listeners = new Set<() => void>()
+let todoStorage:Todo[] = []
+const emptyArray: Todo[] = []
 
 function emit() {
-  cacheByUser.clear()
   listeners.forEach((listener) => listener())
 }
 
-function readAll(): Todo[] {
-  if (typeof window === "undefined") return []
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    const parsed = JSON.parse(raw) as Todo[]
-    return Array.isArray(parsed) ? parsed : []
-  } catch {
-    return []
-  }
-}
 
-function writeAll(todos: Todo[]) {
-  if (typeof window === "undefined") return
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
-  emit()
-}
 
-function sortTodos(todos: Todo[]) {
-  return [...todos].sort(
-    (a, b) =>
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  )
-}
 
 /** Local store shaped like a future API (filter by userId for login). */
 export const todoStore = {
-  subscribe(listener: () => void) {
+  subscribe(userId:string ,listener: () => void) {
+    if( !userId || userId === 'guest' ) return () => {}
     listeners.add(listener)
-    return () => listeners.delete(listener)
-  },
+    currentUserId = userId;
+    const supabase = createClient();
 
-  listByUser(userId: string): Todo[] {
-    const cached = cacheByUser.get(userId)
-    if (cached) return cached
+    void supabase
+      .from("todos")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data) {
+          todoStorage = data as unknown as Todo[]
+          emit() 
+        }
+      })
 
-    const list = sortTodos(
-      readAll().filter((todo) => todo.userId === userId)
+      const formatTodo = (raw: any): Todo => ({
+        id: raw.id,
+        title: raw.title,
+        completed: raw.completed,
+        userId: raw.user_id, 
+        createdAt: raw.created_at,
+        updatedAt: raw.updated_at,
+        completedAt: raw.completed_at
+      })
+
+  const changes = supabase
+    .channel(`public:todos:${userId}`)
+    // 🟢 ท่อที่ 1: ดักฟังเฉพาะ INSERT และ UPDATE ของ User คนนี้ (คัดกรองจากหลังบ้านได้ดี)
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'todos',
+        filter: `user_id=eq.${userId}`,
+      },
+      (payload) => {
+        todoStorage = [formatTodo(payload.new), ...todoStorage]
+        emit()
+      }
     )
-    cacheByUser.set(userId, list)
-    return list
-  },
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'todos',
+        filter: `user_id=eq.${userId}`,
+      },
+      (payload) => {
+        const updated = formatTodo(payload.new)
+        todoStorage = todoStorage.map((t) => t.id === updated.id ? updated : t)
+        emit()
+      }
+    )
+    // 🟢 ท่อที่ 2: ดักฟังเหตุการณ์ DELETE ทั้งหมดในตาราง todos 
+    // (ระบบ RLS ของ Supabase จะล็อกสเปคให้ User คนนี้มองเห็นเฉพาะสตรีมลบข้อมูลของตัวเองอยู่แล้ว ปลอดภัย 100%)
+    .on(
+      'postgres_changes',
+      {
+        event: 'DELETE',
+        schema: 'public',
+        table: 'todos'
+        // ⚠️ ห้ามใส่ filter user_id ตรงนี้เด็ดขาด ปล่อยให้ RLS จัดการเบื้องหลัง
+      },
+      (payload) => {
+        // ทำการกรองไอดีตัวที่โดนลบออกจากหน่วยความจำฝั่ง Client ทันที
+        todoStorage = todoStorage.filter((t) => t.id !== payload.old.id)
+        emit()
+      }
+    )
+    .subscribe()
 
-  create(input: CreateTodoInput): Todo {
-    const now = new Date().toISOString()
-    const todo: Todo = {
-      id: crypto.randomUUID(),
-      title: input.title.trim(),
-      completed: false,
-      userId: input.userId,
-      createdAt: now,
-      updatedAt: now,
-      completedAt: null,
+
+    return () => {
+      listeners.delete(listener)
+      void supabase.removeChannel(changes)
     }
-    writeAll([todo, ...readAll()])
-    return todo
   },
 
-  update(id: string, userId: string, input: UpdateTodoInput): Todo | null {
-    const todos = readAll()
-    const index = todos.findIndex(
-      (todo) => todo.id === id && todo.userId === userId
-    )
-    if (index === -1) return null
 
-    const current = todos[index]
-    const now = new Date().toISOString()
-    const completed =
-      input.completed === undefined ? current.completed : input.completed
 
-    const next: Todo = {
-      ...current,
-      title: input.title?.trim() ?? current.title,
-      completed,
-      updatedAt: now,
-      completedAt: completed ? (current.completedAt ?? now) : null,
+
+  listByUser(userId:string):Todo[] {
+    if(!userId || userId === 'guest' || userId !== currentUserId) {
+      return emptyArray
     }
+    return todoStorage
+  }
 
-    todos[index] = next
-    writeAll(todos)
-    return next
-  },
 
-  remove(id: string, userId: string): boolean {
-    const todos = readAll()
-    const next = todos.filter(
-      (todo) => !(todo.id === id && todo.userId === userId)
-    )
-    if (next.length === todos.length) return false
-    writeAll(next)
-    return true
-  },
+
 }

@@ -18,6 +18,8 @@ export function TodoList({
   onComplete,
   onReopen,
 }: TodoListProps) {
+  console.log("todosssssssss --> ",todos)
+
   if (todos.length === 0) {
     return (
       <p className="mt-6 sm:mt-8 w-full text-center text-sm sm:text-base text-zinc-950/45 border border-dashed border-zinc-950/15 px-4 py-6 sm:py-8 dark:text-zinc-50/45 dark:border-zinc-50/15">

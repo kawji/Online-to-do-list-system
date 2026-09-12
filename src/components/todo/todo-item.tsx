@@ -126,11 +126,11 @@ export function TodoItem({
               <button
                 type="button"
                 onClick={() => onComplete(todo.id)}
-                className={`${actionBtn} border-emerald-600/30 text-emerald-700 hover:bg-emerald-300 hover:text-zinc-950 dark:border-emerald-400/30 dark:text-emerald-300/90`}
+                className={`${actionBtn} border-emerald-600/30 text-emerald-700 hover:bg-emerald-300 dark:hover:text-zinc-950 dark:border-emerald-400/30 `}
                 aria-label="Mark complete"
                 title="Complete"
               >
-                <Check size={15} />
+                <Check size={15} className=" text " />
               </button>
             )}
 
