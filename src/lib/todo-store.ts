@@ -46,7 +46,6 @@ export const todoStore = {
 
   const changes = supabase
     .channel(`public:todos:${userId}`)
-    // 🟢 ท่อที่ 1: ดักฟังเฉพาะ INSERT และ UPDATE ของ User คนนี้ (คัดกรองจากหลังบ้านได้ดี)
     .on(
       'postgres_changes',
       {
@@ -74,15 +73,13 @@ export const todoStore = {
         emit()
       }
     )
-    // 🟢 ท่อที่ 2: ดักฟังเหตุการณ์ DELETE ทั้งหมดในตาราง todos 
-    // (ระบบ RLS ของ Supabase จะล็อกสเปคให้ User คนนี้มองเห็นเฉพาะสตรีมลบข้อมูลของตัวเองอยู่แล้ว ปลอดภัย 100%)
     .on(
       'postgres_changes',
       {
         event: 'DELETE',
         schema: 'public',
         table: 'todos'
-        // ⚠️ ห้ามใส่ filter user_id ตรงนี้เด็ดขาด ปล่อยให้ RLS จัดการเบื้องหลัง
+        //ห้ามใส่ filter user_id ตรงนี้ ปล่อยให้ RLS จัดการเบื้องหลัง
       },
       (payload) => {
         // ทำการกรองไอดีตัวที่โดนลบออกจากหน่วยความจำฝั่ง Client ทันที
